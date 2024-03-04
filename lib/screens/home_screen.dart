@@ -14,9 +14,14 @@ import 'package:rental_app/widget/delete_widget.dart';
 import 'package:rental_app/widget/edit_widget.dart';
 import 'package:rental_app/widget/no_product.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
 Widget slider({required ImageProvider image}){
   return Container(    
     decoration: BoxDecoration(    
@@ -177,10 +182,9 @@ Widget slider({required ImageProvider image}){
                             
                                       GestureDetector(
                                         onTap: () async {
-                                          final data=productList[index]; 
-                                          print('home id ${data.id}');
-                            
-                                          if(isItemInCart(data.id!)){
+                                          final data=productList[index];                                          
+                                         
+                                          if(isItemInCart(data.id!)){                                            
                                             ScaffoldMessenger.of(context).showSnackBar(                                      
                                             const SnackBar(
                                             behavior: SnackBarBehavior.floating,
@@ -191,8 +195,10 @@ Widget slider({required ImageProvider image}){
                                             ),)));
                                           }
                                           else{
+
                                             final cartProduct=CartModel(name: data.name, price: data.price, category: data.category, details: data.details, imagePath: data.imagePath,quantity: 1,id: data.id!);                                                                
                                             addToCart(cartProduct);
+                                            
                                           }  
                                         },
                                         child: const Center(

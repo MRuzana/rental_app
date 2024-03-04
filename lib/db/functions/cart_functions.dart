@@ -15,6 +15,7 @@ Future <void> addToCart(CartModel value)async{
    cartItemCountNotifier.value++;
    cartItemListNotifier.notifyListeners();
    cartItemCountNotifier.notifyListeners();
+   getAllCartItems();
   }
 
 Future<void>getAllCartItems()async{
@@ -24,16 +25,16 @@ Future<void>getAllCartItems()async{
   cartItemListNotifier.value.addAll(cartDB.values);
   cartItemListNotifier.notifyListeners();
 }
-
 bool isItemInCart(int itemId) {
 
-  for (final cartItem in cartItemListNotifier.value) {  
+  for (final cartItem in cartItemListNotifier.value) { 
     if (cartItem.id== itemId) {
-      return true; // Item is already in the cart
+      return true; 
     }
   }
-  return false; // Item is not in the cart
+  return false; 
 }
+
 Future<void>deleteCartItem(int cartid)async{
 
   final cartDB=await Hive.openBox<CartModel>('cart_db');
