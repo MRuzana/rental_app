@@ -188,10 +188,10 @@ Widget slider({required ImageProvider image}){
                                             ScaffoldMessenger.of(context).showSnackBar(                                      
                                             const SnackBar(
                                             behavior: SnackBarBehavior.floating,
-                                            backgroundColor: Color(0xff8ECFCB),
+                                            backgroundColor: Colors.red,
                                             margin: EdgeInsets.all(10),
                                             content: Text('Item Already added',style: TextStyle(
-                                            color: Colors.black
+                                            color: Colors.white
                                             ),)));
                                           }
                                           else{

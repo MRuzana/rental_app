@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_app/db/functions/bill_functions.dart';
 import 'package:rental_app/db/model/cart_model.dart';
-import 'package:rental_app/screens/bill_details.dart';
+import 'package:rental_app/screens/bills/bill_details.dart';
 import 'package:rental_app/db/model/customer_details_model.dart';
 import 'package:rental_app/widget/button_widget.dart';
 import 'package:rental_app/widget/text_form_widget.dart';
@@ -107,8 +107,8 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       onTapCaleneder: ()async{
                       DateTime? pickedDate = await showDatePicker(context: context,
                         initialDate: DateTime.now(),
-                        firstDate:DateTime(2001),
-                        // firstDate:DateTime.now(), //DateTime.now() - not to allow to choose before today.
+                        //firstDate:DateTime(2001),
+                         firstDate:DateTime.now(), //DateTime.now() - not to allow to choose before today.
                         lastDate: DateTime(2101), 
                       );
                       if(pickedDate!=null){

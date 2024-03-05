@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
@@ -25,22 +27,24 @@ Future <void>getAllProducts()async{
 }
 
 Future<void>deleteProduct(int id)async{
-  
+  print('productid home$id');
   final productDB=await Hive.openBox<AddProductmodel>('product_db');
   final cartDB=await Hive.openBox<CartModel>('cart_db');
-  await productDB.delete(id);
-
-  if(isItemInCart(id)){
+ 
+   if (isItemInCart(id)) {
+    print('productid in cart$id');
     await cartDB.delete(id);
+    cartItemListNotifier.notifyListeners();
+    getAllCartItems();
   }
+
+  await productDB.delete(id);
   await getAllProducts();
   await getCategory();
-  getAllCartItems();
-
+  
   productListNotifier.notifyListeners();
   catogoriesNotifier.notifyListeners();
-  cartItemListNotifier.notifyListeners();
-
+ 
 }
 Future<void>editProduct(updatedProduct,id)async{
    final productDB=await Hive.openBox<AddProductmodel>('product_db');

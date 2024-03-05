@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:rental_app/db/functions/bill_functions.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
 import 'package:rental_app/db/model/bill_model.dart';
-import 'package:rental_app/screens/settled_bill.dart';
+import 'package:rental_app/screens/bills/settled_bill.dart';
 import 'package:rental_app/widget/button_widget.dart';
 
 class BillSettlement extends StatefulWidget {

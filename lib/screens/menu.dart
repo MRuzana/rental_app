@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_app/db/model/menu_item_model.dart';
-import 'package:rental_app/screens/bill_settlement.dart';
+import 'package:rental_app/screens/about/about_app.dart';
+import 'package:rental_app/screens/bills/bill_settlement.dart';
 import 'package:rental_app/screens/due_orders.dart';
 import 'package:rental_app/screens/login_screen.dart';
 import 'package:rental_app/screens/revenue.dart';
@@ -12,8 +13,8 @@ class Menu extends StatelessWidget {
     MenuItem(title: 'Bill', leadingIcon: const Icon(Icons.receipt),trailingIcon:const  Icon(Icons.chevron_right,)),
     MenuItem(title: 'Revenue', leadingIcon: const Icon(Icons.money),trailingIcon: const Icon(Icons.chevron_right)),
     MenuItem(title: 'Due order', leadingIcon: const Icon(Icons.chat_bubble_outline_rounded),trailingIcon: const Icon(Icons.chevron_right)),
+    MenuItem(title: 'About App', leadingIcon: const Icon(Icons.info),trailingIcon: const Icon(Icons.chevron_right)),
     MenuItem(title: 'Logout', leadingIcon: const Icon(Icons.logout),trailingIcon: const Icon(Icons.chevron_right)),
-    
   ];
 
 
@@ -42,6 +43,9 @@ class Menu extends StatelessWidget {
                   }
                   else if(items[index].title=='Due order'){
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const DueOrders()));
+                  }
+                  else if(items[index].title=='About App'){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AboutApp()));
                   }
                   else{
                     signoutAlert(context);

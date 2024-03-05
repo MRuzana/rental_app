@@ -112,7 +112,7 @@ class Cart extends StatelessWidget {
                                           ),
                                           IconButton(
                                             onPressed: () {
-                                              
+                                              print('data.id${data.cartId!}');
                                               deleteCartItem(data.cartId!);
                                               totalQuantityNotifier.value=totalQuantityNotifier.value-data.quantity!;
                                               totalSumNotifier.value=totalSumNotifier.value-data.quantity! * double.parse(data.price);

@@ -164,25 +164,34 @@ class _RevenueState extends State<Revenue> {
   Future<void>onSubmitButtonClicked(BuildContext context)async{
     final fromdate=_fromDateController.text.trim();
     final todate=_toDateController.text.trim();
+                      
+    if(fromdate.isEmpty||todate.isEmpty){
+      return;
+    }
 
-    final fromDate = DateTime.parse(_fromDateController.text);
-    final toDate = DateTime.parse(_toDateController.text); 
+    final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    DateTime fromDate;
+    DateTime toDate;
 
-    if(fromDate.isBefore(toDate) || fromDate.isAtSameMomentAs(toDate)) {
+    try {
+      fromDate = dateFormat.parse(fromdate);
+      toDate = dateFormat.parse(todate);
+    } catch (e) {
+      print('Error parsing date: $e');
+      return;
+    }
+  if(fromDate.isAfter(toDate)){
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.red,
         margin: EdgeInsets.all(10),
         content: Text('Select From date before To date'),
       ));
-    }    
-                    
-    if(fromdate.isEmpty||todate.isEmpty){
-      return;
-    }
-   
+      _fromDateController.text=DateFormat('dd-MM-yyyy').format(DateTime.now().subtract(const Duration(days: 7)));
+      _toDateController.text=DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-   
+    }    
+       
     getRevenue(fromdate, todate);
     fetchdata();
   }

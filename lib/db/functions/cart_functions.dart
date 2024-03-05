@@ -35,6 +35,7 @@ bool isItemInCart(int itemId) {
   return false; 
 }
 
+
 Future<void>deleteCartItem(int cartid)async{
 
   final cartDB=await Hive.openBox<CartModel>('cart_db');
