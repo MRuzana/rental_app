@@ -1,11 +1,16 @@
 import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
 import 'package:rental_app/db/functions/bill_functions.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
 import 'package:rental_app/db/model/bill_model.dart';
 import 'package:rental_app/screens/bills/settled_bill.dart';
 import 'package:rental_app/widget/button_widget.dart';
+import 'package:rental_app/widget/printable_data.dart';
+import 'package:rental_app/widget/text_widget.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class BillSettlement extends StatefulWidget {
   const BillSettlement({super.key});
@@ -15,16 +20,7 @@ class BillSettlement extends StatefulWidget {
 }
 
 class _BillSettlementState extends State<BillSettlement> {
-
-  Widget text({required String text}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
+  Map<int, bool> _showFullDetailsMap = {};
 
   Widget customerText({required String text}) {
     return Padding(
@@ -32,12 +28,12 @@ class _BillSettlementState extends State<BillSettlement> {
       child: Text(
         text,
         style: const TextStyle(
-          fontSize: 18.0,
+          fontSize: 15.0,
         ),
       ),
     );
   }
-
+ 
   Widget okButtonText({required String text}) {
     return Text(
       text,
@@ -60,6 +56,7 @@ class _BillSettlementState extends State<BillSettlement> {
 
     return Scaffold(
       appBar: EasySearchBar(
+        backgroundColor: const Color.fromARGB(255, 195, 247, 247),
           title: const Text('Bill Settlement'),
           onSearch: (value) async {
             List<BillDetailsModel> products = await searchText(value);
@@ -75,26 +72,51 @@ class _BillSettlementState extends State<BillSettlement> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final data = billList[index];              
-                  print('cart${data.cartItems.toList()}');
-                  print('settled: ${data.isSettled}');
+                  final data = billList[index];
+                  final bool _showFullDetails = _showFullDetailsMap[index] ?? false;  
 
-                  return Column(
+
+                    return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20.0,),
-                      text(text: 'Bill No : ${data.billNo}'),
-                      const SizedBox(height: 20.0,),
-                      text(text: 'Customer details'),
+                      //const SizedBox(height: 20.0,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0 ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            textfield(text: 'Bill No : ${data.billNo}', color: Colors.black,size: 15,weight: FontWeight.bold),
+                            IconButton(onPressed: (){
+                              setState(() {
+                                _showFullDetailsMap[index] = !(_showFullDetailsMap[index] ?? false);
+                              });
+                            }, icon: Icon(_showFullDetails ? Icons.expand_less : Icons.expand_more),)
+                          ],
+                        ),
+                      ),
+                      //const SizedBox(height: 20.0,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0 ),
+                        child: textfield(text: 'Customer details',color: Colors.black,size: 15,weight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 10.0,),
                       customerText(text: 'Name          : ${data.customerName}'),
                       customerText(text: 'Address      : ${data.customerAddress}'),
+                                           
+                      // Full details section
+                      if (_showFullDetails) ...[
+                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [                    
                       customerText(text: 'Place           : ${data.customerPlace}'),
                       customerText(text: 'Mobile no    : ${data.customerMobileNo}'),
                       customerText(text: 'Event date   : ${data.eventDate}'),
                       customerText(text: 'Return date : ${data.returnDate}'),                     
                       const SizedBox( height: 20.0,),  
-                      text(text: 'Item details'),                 
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0 ),
+                        child: textfield(text: 'Item details',color: Colors.black,size: 15,weight: FontWeight.bold),
+                      ),            
                       Padding(
                         padding: const EdgeInsets.all(12.0 ),
                         child: DataTable(
@@ -116,10 +138,19 @@ class _BillSettlementState extends State<BillSettlement> {
                             ]);
                           }).toList(),
                         ),
-                      ),                    
-                      text(text: 'Total Amount      : ₹${data.totalAmount}'),
-                      text(text: 'Advance Paid      : ₹${data.advancePaid}'),
-                      text(text: 'Balance Amount : ₹${data.balanceAmount}'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0 ),
+                        child: textfield(text: 'Total Amount      : ₹${data.totalAmount}',color: Colors.black,size: 15,weight: FontWeight.bold),
+                      ),  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0 ),
+                        child: textfield(text: 'Advance Paid      : ₹${data.advancePaid}',color: Colors.black,size: 15,weight: FontWeight.bold),
+                      ),  
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0 ),
+                        child: textfield(text: 'Balance Amount : ₹${data.balanceAmount}',color: Colors.black,size: 15 ,weight: FontWeight.bold),
+                      ),  
                       
                       (data.isSettled==false)?
                       
@@ -130,7 +161,7 @@ class _BillSettlementState extends State<BillSettlement> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xff8ECFCB),
+                                backgroundColor: const Color.fromARGB(255, 195, 247, 247), 
                               ),
                               onPressed: () {
                                 showDialog(
@@ -157,33 +188,30 @@ class _BillSettlementState extends State<BillSettlement> {
                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [                                                                                                  
-                                                text(text:'Date         : ${DateFormat('dd-MM-yyyy').format(DateTime.now())}'),                                                                                                
-                                                text(text:'Bill No      : ${data.billNo}'),
-                                                text(text:'Total Amt : ${data.totalAmount}'),
-                                                text(text:'Adv Paid  : ${data.advancePaid}'),
-                                                text(text: 'Balance   : ${data.balanceAmount}'),
+                                                textfield(text:'Date      : ${DateFormat('MMM d, yyyy').format(DateTime.now())}', 
+                                                color: Colors.black,size: 15 ,weight: FontWeight.normal),
+                                                textfield(text: 'Bill No   : ${data.billNo}', color: Colors.black,size: 15,weight: FontWeight.normal),
+                                                // textfield(text: 'Adv paid : ₹${data.advancePaid}',color: Colors.black,size: 15,weight: FontWeight.normal),                                                                                                                                 
+                                                // textfield(text: 'Bal Amt : ₹${data.balanceAmount}',color: Colors.black,size: 15,weight: FontWeight.normal),
+                                                textfield(text: 'Tot Amt : ₹${data.totalAmount}',color: Colors.black,size: 15,weight: FontWeight.normal),
                                                 const Padding(
-                                                  padding: EdgeInsets.all(8.0),
+                                                  padding: EdgeInsets.only(top: 8.0 ),
                                                   child: Text('Items returned back and Balance amount received',style: TextStyle(color: Colors.red),),
                                                 ),
                                                 
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  child: button(
-                                                    buttonText: 'OK',
-                                                    buttonPressed: (){
-                                                      updateBill(
-                                                        data.billNo,                                                        
-                                                        DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                                                        index);
-                                                        Navigator.pushAndRemoveUntil(
-                                                          context, MaterialPageRoute(builder: (context)=>BillSettled(
-                                                            billDetailsModel: billList[index])), (route) =>false);
-                                                        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>BillSettled(billDetailsModel: billList[index],
-                                                        // )));                                                                                               
-                                                    })
-                                                  ),
+                                                button(
+                                                  buttonText: 'OK',
+                                                  buttonPressed: (){
+                                                    updateBill(
+                                                      data.billNo,                                                        
+                                                      DateFormat('MMM d, yyyy').format(DateTime.now()),
+                                                      index);
+                                                      Navigator.pushAndRemoveUntil(
+                                                        context, MaterialPageRoute(builder: (context)=>BillSettled(
+                                                          billDetailsModel: billList[index])), (route) =>false);
+                                                      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>BillSettled(billDetailsModel: billList[index],
+                                                      // )));                                                                                               
+                                                  }),
                                               ],
                                             ),
                                           ],
@@ -202,31 +230,51 @@ class _BillSettlementState extends State<BillSettlement> {
                         ),
                       )
                       :
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Center(child: Column(
                           children: [
-                            Text('Balance amount received',style: TextStyle(color: Colors.red),),
-                            Text('Bill Settled',style: TextStyle(color: Colors.red,fontSize: 20 ,fontWeight: FontWeight.bold),),
+                            IconButton(onPressed: (){
+                              
+                            }, icon: const Icon(Icons.picture_as_pdf,color: Colors.red,)),
+                            const Text('Balance amount received',style: TextStyle(color: Colors.red),),
+                            const Text('Bill Settled',style: TextStyle(color: Colors.red,fontSize: 18.0,fontWeight: FontWeight.bold),),
                           ],
                         )),
                       )
                     ],
+                  )
+                                              
+                      ],
+                    ],
                   );
-                  //}
                 },
                 separatorBuilder: (context, index) {
                   return const Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: Divider(
-                      color: Colors.black,
-                    ),
+                    child: Divider(color: Colors.black),
                   );
                 },
-                itemCount: billList.length);
-          },
+                itemCount: billList.length,
+              );
+            },
+          ),
         ),
-      )),
+      ),
     );
   }
+  // Future<void>printDoc()async{
+  //   //final data = getBillDetails();
+  //   final doc=pw.Document();
+  //   doc.addPage(pw.Page(
+  //     pageFormat: PdfPageFormat.a4,
+  //     build: (pw.Context context) {
+  //       return buildprintable_data(BillDetailsModel);
+  //   },));
+  //   await Printing.layoutPdf(
+  //     onLayout: (PdfPageFormat format) async =>doc.save());
+  // }
+
 }
+
+                                                             

@@ -16,9 +16,9 @@ class LoginScreen extends StatelessWidget {
     Widget divider=const SizedBox(height: 10);
 
     return Scaffold(
-      backgroundColor: const Color(0xffC8B6B6),
+      backgroundColor:  const Color.fromARGB(255, 155, 154, 154),      
       appBar: AppBar(
-        backgroundColor: const Color(0xffC8B6B6),
+        backgroundColor:  const Color.fromARGB(255, 155, 154, 154),            
       ),
       body: SafeArea(
         child: Center(

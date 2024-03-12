@@ -32,7 +32,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     return Scaffold(
      // backgroundColor: const Color(0xffC8B6B6),
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
         title: const Center(child: Text('Customer Details')),        
       ),
       body: SafeArea(
@@ -107,12 +107,12 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       onTapCaleneder: ()async{
                       DateTime? pickedDate = await showDatePicker(context: context,
                         initialDate: DateTime.now(),
-                        //firstDate:DateTime(2001),
-                         firstDate:DateTime.now(), //DateTime.now() - not to allow to choose before today.
+                        firstDate:DateTime(2001),
+                         //firstDate:DateTime.now(), //DateTime.now() - not to allow to choose before today.
                         lastDate: DateTime(2101), 
                       );
                       if(pickedDate!=null){
-                        String eventDate = DateFormat('dd-MM-yyyy').format(pickedDate); 
+                        String eventDate = DateFormat('MMM d, yyyy').format(pickedDate); 
                         setState(() {
                           _eventDateController.text=eventDate;
                         });
@@ -142,7 +142,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     );
   }
   Future<void>onSubmitButtonClicked(BuildContext context)async{
-    int CurrentBillNo=await nextBillNo();
+    int currentBillNo=await nextBillNo();
     final customerName=_customerNameController.text.trim();
     final customerAddress=_customerAddressController.text.trim();
     final customerPlace=_customerPlaceController.text.trim();
@@ -156,7 +156,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     // AddCustomerDetails(customerDetails);
     
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-    builder: (context)=> BillDetails(sum:widget.sum,eventDate: eventDate,cartItems: widget.cartItems,billNo: CurrentBillNo,customerdetails: customerInfo)));
+    builder: (context)=> BillDetails(sum:widget.sum,eventDate: eventDate,cartItems: widget.cartItems,billNo: currentBillNo,customerdetails: customerInfo)));
 
   }  
 }

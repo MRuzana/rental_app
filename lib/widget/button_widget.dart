@@ -12,8 +12,7 @@ Widget button({
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xff8ECFCB),
-          //  fixedSize: const Size(120, 50),
+            backgroundColor: const Color.fromARGB(255, 195, 247, 247),     
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             )

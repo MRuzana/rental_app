@@ -27,7 +27,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
       body: AnimatedSplashScreen(
         splash: Image.asset('assets/images/logo.png',color: Colors.black),
         
-        backgroundColor: const Color(0xffC8B6B6),
+        backgroundColor:  const Color.fromARGB(255, 155, 154, 154),     
         splashIconSize: 200 ,
         duration: 3000,
         splashTransition: SplashTransition.sizeTransition,
@@ -55,11 +55,6 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
       if(mounted){
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> const HomeScreen()));
       }
-     
-
     }
   }
-
-
-
 }

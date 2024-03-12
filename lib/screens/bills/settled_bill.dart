@@ -1,6 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:rental_app/db/model/bill_model.dart';
 import 'package:rental_app/screens/home_screen.dart';
+import 'package:rental_app/widget/printable_data.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BillSettled extends StatelessWidget {
   final BillDetailsModel billDetailsModel;
@@ -31,7 +38,7 @@ class BillSettled extends StatelessWidget {
   Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
         title: const Text('Bills'),
         leading: 
           IconButton(onPressed: (){
@@ -46,8 +53,16 @@ class BillSettled extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 30.0),
-                  text(text: 'Date : ${billDetailsModel.billingDate}'),
-                 // text(text: 'Issettledd ${billDetailsModel.isSettled}'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      text(text: 'Date : ${billDetailsModel.billingDate}'),
+                      IconButton(onPressed: (){
+                        printDoc();
+                      }, icon: const Icon(Icons.picture_as_pdf,color: Colors.red,))
+                    ],
+                  ),
+                                  
                   text(text: 'Bill No : ${billDetailsModel.billNo}'),
                   const SizedBox( height: 20.0 ),
                   text(text: 'Customer details'),
@@ -90,4 +105,27 @@ class BillSettled extends StatelessWidget {
       )),
     );
   }
+
+  Future<void>printDoc()async{
+    final doc=pw.Document();
+    doc.addPage(pw.Page(
+      pageFormat: PdfPageFormat.a4,
+      build: (pw.Context context) {
+        return buildprintable_data(billDetailsModel);
+    },));
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
+  final String appDocPath = appDocDir.path;
+  final String fullPath = '$appDocPath/bill${billDetailsModel.billNo}.pdf';
+  final File file = File(fullPath);
+  await file.writeAsBytes(await doc.save());
+
+  // Share the PDF file via WhatsApp
+  Share.shareFiles([fullPath], text: 'Check out this bill');
+
+  // Share the PDF file via WhatsApp
+ // Share.shareFiles(['example.pdf'], text: 'Check out this bill');
+    // await Printing.layoutPdf(
+    //   onLayout: (PdfPageFormat format) async =>doc.save());
+  }
 }
+

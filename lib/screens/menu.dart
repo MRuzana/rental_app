@@ -23,7 +23,7 @@ class Menu extends StatelessWidget {
     return Scaffold(
     //  backgroundColor: const Color(0xffC8B6B6),
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
         title: const Center(child: Text('Additional Information')),
       ),
       body: SafeArea(child: Padding(
@@ -39,7 +39,7 @@ class Menu extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const BillSettlement()));
                   }
                   else if(items[index].title=='Revenue'){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Revenue()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const Revenue()));
                   }
                   else if(items[index].title=='Due order'){
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const DueOrders()));

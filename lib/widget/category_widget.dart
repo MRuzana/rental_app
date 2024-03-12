@@ -26,7 +26,7 @@ Widget category() {
                       height: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20), 
-                        color: selectedCategoryNotifier.value==category[index]? const Color(0xff8ECFCB): const Color.fromARGB(255, 214, 251, 251), 
+                        color: selectedCategoryNotifier.value==category[index]? const Color.fromARGB(255, 155, 154, 154) : const Color.fromARGB(255, 206, 242, 242) ,  
                       ),
                       child: Center(
                         child: GestureDetector(

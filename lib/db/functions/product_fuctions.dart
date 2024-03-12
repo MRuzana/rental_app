@@ -1,5 +1,4 @@
-import 'dart:math';
-
+// ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
@@ -11,12 +10,10 @@ ValueNotifier<List<String>>catogoriesNotifier=ValueNotifier([]);
 
 Future <void> addProduct(AddProductmodel value)async{
   final productDB=await Hive.openBox<AddProductmodel>('product_db');
-  final id = await productDB.add(value);
-  value.id = id;
-   await productDB.put(value.id,value);
-  //productListNotifier.value.add(value);
+  final productid = await productDB.add(value);
+  value.id = productid;
+  await productDB.put(value.id,value);
   productListNotifier.notifyListeners();
- // await productDB.close();
 }
 Future <void>getAllProducts()async{
   final productDB=await Hive.openBox<AddProductmodel>('product_db');
@@ -29,23 +26,29 @@ Future <void>getAllProducts()async{
 Future<void>deleteProduct(int id)async{
   print('productid home$id');
   final productDB=await Hive.openBox<AddProductmodel>('product_db');
-  final cartDB=await Hive.openBox<CartModel>('cart_db');
- 
-   if (isItemInCart(id)) {
-    print('productid in cart$id');
-    await cartDB.delete(id);
-    cartItemListNotifier.notifyListeners();
-    getAllCartItems();
-  }
 
+  CartModel? isItemCart(int id) {
+    for (final cartItem in cartItemListNotifier.value) {
+      if (cartItem.id == id) {
+        return cartItem; // Return the cart item object
+      }
+    }
+      return null; // Return null if not found
+  }
+final item=isItemCart(id);
+print('item is $item');
+if(item!=null){
+  await deleteCartItem(item.cartId!);
+}
+ 
   await productDB.delete(id);
   await getAllProducts();
   await getCategory();
   
   productListNotifier.notifyListeners();
   catogoriesNotifier.notifyListeners();
- 
 }
+
 Future<void>editProduct(updatedProduct,id)async{
    final productDB=await Hive.openBox<AddProductmodel>('product_db');
    await productDB.put(updatedProduct.id,updatedProduct);

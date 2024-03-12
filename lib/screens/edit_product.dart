@@ -55,7 +55,7 @@ class _EditProductState extends State<EditProduct> {
     return Scaffold(
       //backgroundColor: const Color(0xffC8B6B6),
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
         title: const Center(child: Text('Edit Product')),
       ),
       body: SafeArea(
@@ -178,8 +178,12 @@ pickImage()async {
  
   final updatedProduct=AddProductmodel(id: id, name: itemName, price: itemPrice, category: itemCategory, details: itemDetails, imagePath: imagePath);
   await editProduct(updatedProduct,id);
-  Navigator.of(context).pushReplacement(MaterialPageRoute(
+  //(mounted){
+   
+     Navigator.of(context).pushReplacement(MaterialPageRoute(
    builder: (context)=> const HomeScreen()));
+//  };
+
   }
 }
 

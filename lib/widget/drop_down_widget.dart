@@ -43,7 +43,7 @@ class _DropdownWidgetState extends State<DropdownWidget> {
         borderSide: BorderSide.none
         ),                      
         filled: true,
-        fillColor: const Color(0xff8ECFCB),                                                                                  
+        fillColor: const Color.fromARGB(255, 206, 242, 242),                                                                             
         hintText: dropdownValue?.isEmpty ?? true ? 'Select Category' : null,
       ),
                                       

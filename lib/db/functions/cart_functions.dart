@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rental_app/db/model/cart_model.dart';
@@ -6,16 +8,32 @@ ValueNotifier<int>cartItemCountNotifier=ValueNotifier<int>(0);
 ValueNotifier<List<CartModel>>cartItemListNotifier=ValueNotifier([]);
 
 Future <void> addToCart(CartModel value)async{
-   final cartDB=await Hive.openBox<CartModel>('cart_db');
-   
-   final cartId=await cartDB.add(value);
-   value.cartId=cartId;
-   await cartDB.put(value.cartId,value);
+  try{
+  
+    final cartDB= await Hive.openBox<CartModel>('cart_db');
+    final cartId=await cartDB.add(value);
+    value.cartId=cartId;
+    await cartDB.put(value.cartId,value);
   // cartItemListNotifier.value.add(value);
-   cartItemCountNotifier.value++;
-   cartItemListNotifier.notifyListeners();
-   cartItemCountNotifier.notifyListeners();
-   getAllCartItems();
+    cartItemCountNotifier.value++;
+    cartItemListNotifier.notifyListeners();
+    cartItemCountNotifier.notifyListeners();
+    getAllCartItems();
+  }
+  catch(error){
+     print('Error adding to cart: $error');
+
+  }
+  //  final cartDB= await Hive.openBox<CartModel>('cart_db');
+   
+  //  final cartId=await cartDB.add(value);
+  //  value.cartId=cartId;
+  //  await cartDB.put(value.cartId,value);
+  // // cartItemListNotifier.value.add(value);
+  //  cartItemCountNotifier.value++;
+  //  cartItemListNotifier.notifyListeners();
+  //  cartItemCountNotifier.notifyListeners();
+  //  getAllCartItems();
   }
 
 Future<void>getAllCartItems()async{
@@ -55,5 +73,5 @@ void clearCart()async{
   cartItemCountNotifier.value = 0;
 
   cartItemListNotifier.notifyListeners();
-  cartItemCountNotifier.notifyListeners();
+ cartItemCountNotifier.notifyListeners();
 }

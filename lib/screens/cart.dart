@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,7 +19,7 @@ class Cart extends StatelessWidget {
     return Scaffold(
       //backgroundColor: const Color(0xffC8B6B6),
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
         title: const Center(child: Text('Cart')),
       ),
 
@@ -144,7 +145,7 @@ class Cart extends StatelessWidget {
               width: double.infinity,
               height: 140.0,
               decoration: BoxDecoration(
-                  color: const Color(0xff8ECFCB),
+                  color: const Color.fromARGB(255, 206, 242, 242),    
                   borderRadius: BorderRadius.circular(20)),
               child: Padding(
                 padding: const EdgeInsets.all(15.0),

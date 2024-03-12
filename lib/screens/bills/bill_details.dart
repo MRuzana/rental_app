@@ -39,15 +39,15 @@ class _BillDetailsState extends State<BillDetails> {
   @override
   build(BuildContext context) {
 
-    DateTime eventdate = DateFormat('dd-MM-yyyy').parse(widget.eventDate);
+    DateTime eventdate = DateFormat('MMM d, yyyy').parse(widget.eventDate);
     DateTime returnDate = eventdate.add(const Duration(days: 3));
-    formattedReturnDate = DateFormat('dd-MM-yyyy').format(returnDate);
+    formattedReturnDate = DateFormat('MMM d, yyyy').format(returnDate);
     balanceNotifier.value = widget.sum;
 
     return Scaffold(
     //  backgroundColor: const Color(0xffC8B6B6),
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const  Color.fromARGB(255, 206, 242, 242),   
         title: const Center(child: Text('Bill Details')),
       ),
       body: SafeArea(
@@ -60,15 +60,7 @@ class _BillDetailsState extends State<BillDetails> {
             children: [
               const SizedBox(height: 30.0,),
               text(text: 'Bill No : ${widget.billNo}'),            
-              const SizedBox(height: 20.0,),
-
-              // text(text: 'Customer details'),
-              // text(text: 'Name : ${customerdetails.name}'),
-              // text(text: 'Address : ${customerdetails.address}'),
-              // text(text: 'Place : ${customerdetails.place}'),
-              // text(text: 'Mobile No : ${customerdetails.mobileNo}'),
-              // text(text: 'Event date : ${customerdetails.eventDate}'),
-              
+              const SizedBox(height: 20.0,),                          
 
               Padding(
                 padding: const EdgeInsets.all(12.0 ),
@@ -184,7 +176,7 @@ class _BillDetailsState extends State<BillDetails> {
   final double balance=balanceNotifier.value;
 
   List<Map<String, dynamic>> cartItemData = [];
-  widget.cartItems.forEach((cartItem) {
+  for (var cartItem in widget.cartItems) {
   Map<String, dynamic> itemData = {
     "name": cartItem.name,
     "quantity": cartItem.quantity,
@@ -192,7 +184,7 @@ class _BillDetailsState extends State<BillDetails> {
     "total_price": cartItem.quantity! * double.parse(cartItem.price),
   };
   cartItemData.add(itemData);
-});
+}
  
   final bill=BillDetailsModel(
     customerName: widget.customerdetails.name,
@@ -209,7 +201,7 @@ class _BillDetailsState extends State<BillDetails> {
   );
     addBill(bill);
     clearCart();
-    Navigator.of(context).pushNamedAndRemoveUntil('/', (HomeScreen) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (homeScreen) => false);
  }
 }
 

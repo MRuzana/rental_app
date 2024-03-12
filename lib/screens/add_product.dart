@@ -29,7 +29,7 @@ class _AddProductState extends State<AddProduct> {
     return Scaffold(
       //backgroundColor: const Color(0xffC8B6B6),
       appBar: AppBar(
-        backgroundColor: const Color(0xff8ECFCB),
+        backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
         title: const Center(child: Text('Add Product')),
       ),
       body: SafeArea(
