@@ -73,8 +73,8 @@ class LoginScreen extends StatelessWidget {
     );
   }
 void checkLogin(BuildContext ctx) async{
-    final username = _usernameController.text;
-    final password = _passwordController.text;
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
 
     const uname='ruzana';
     const pword='1234';

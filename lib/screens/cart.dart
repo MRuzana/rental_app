@@ -51,46 +51,47 @@ class Cart extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Container(
-                                  height: 125,
+                                  height: 135.0 ,
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: const Color.fromARGB(255, 195, 247, 247), 
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Center(
                                     child: ListTile(
-                                      title: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      title: Column(
                                         children: [
-                                          SizedBox(
-                                            width: 80.0,
-                                            height: 80.0,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Image.memory(
-                                                File(data.imagePath)
-                                                    .readAsBytesSync(),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10.0),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(data.id.toString()),
-                                                const SizedBox(height: 5.0),                                              
-                                                Text('₹${data.price}'),
-                                                Text( '₹$itemTotalPrice',
-                                                  style: const TextStyle(
-                                                      fontWeight: FontWeight.bold),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Image.memory(
+                                                    File(data.imagePath)
+                                                        .readAsBytesSync(),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              const SizedBox(width: 10.0),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(data.name),
+                                                  const SizedBox(height: 5.0),                                              
+                                                  Text('₹${data.price}'),
+                                                  Text( '₹$itemTotalPrice',
+                                                    style: const TextStyle(
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                      trailing: Row(
+                                           Row(
+                                            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
@@ -101,30 +102,32 @@ class Cart extends StatelessWidget {
                                               }
                                             },
                                             icon:
-                                                const Icon(Icons.remove_circle),
+                                                const Icon(Icons.remove_circle,color: Colors.black,),
                                           ),
-                                          Text(data.quantity.toString()),
+                                          Text(data.quantity.toString(),style: const TextStyle(color: Colors.black),),
                                           IconButton(
                                             onPressed: () {
                                               cartItemList[index].quantity = cartItemList[index].quantity! +                                                     1;
                                               cartItemListNotifier.notifyListeners();
                                             },
-                                            icon: const Icon(Icons.add_circle),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              print('data.id${data.cartId!}');
-                                              deleteCartItem(data.cartId!);
-                                              totalQuantityNotifier.value=totalQuantityNotifier.value-data.quantity!;
-                                              totalSumNotifier.value=totalSumNotifier.value-data.quantity! * double.parse(data.price);
-                                              totalQuantityNotifier.notifyListeners();
-                                              totalSumNotifier.notifyListeners();
-                                            },
-                                            icon: const Icon( Icons.delete,
-                                              color: Colors.red,
-                                            ),
-                                          ),
+                                            icon: const Icon(Icons.add_circle,color: Colors.black),
+                                          ),   
                                         ],
+                                      ),
+                                      ],
+                                    ),
+                                      trailing: IconButton(
+                                        onPressed: () {
+                                         print('data.id${data.cartId!}');
+                                          deleteCartItem(data.cartId!);
+                                          totalQuantityNotifier.value=totalQuantityNotifier.value-data.quantity!;
+                                          totalSumNotifier.value=totalSumNotifier.value-data.quantity! * double.parse(data.price);
+                                          totalQuantityNotifier.notifyListeners();
+                                          totalSumNotifier.notifyListeners();
+                                        },
+                                        icon: const Icon( Icons.delete,
+                                          color: Colors.red,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -132,8 +135,7 @@ class Cart extends StatelessWidget {
                               );
                             },
                             itemCount: cartItemList.length
-                          );
-                                                   
+                          ); 
                       }),
                 ],
               ),
@@ -189,10 +191,7 @@ class Cart extends StatelessWidget {
                                 'BOOK NOW ',
                                 style: TextStyle(color: Colors.black),
                               ),
-                            )),
-                           
-                            
-                          
+                            )),                                                                              
                       ],
                     ),
                   ],
@@ -217,7 +216,7 @@ class Cart extends StatelessWidget {
 
     return totalQuantityNotifier.value;
   }
-
+  
   double calculateTotalSum(List<CartModel> cartItemList) {
     double sum = 0;
     for (final item in cartItemList) {

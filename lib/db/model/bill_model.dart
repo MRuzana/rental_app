@@ -46,6 +46,10 @@ bool? isSettled;
 @HiveField(14)
 String? billingDate;
 
+@HiveField(15)
+String? customerMail;
+
+
 BillDetailsModel({
   required this.billNo,
   required this.customerName,
@@ -58,6 +62,7 @@ BillDetailsModel({
   required this.advancePaid,
   required this.balanceAmount,
   required this.cartItems,
+  required this.customerMail,
   this.billingDate,
   this.isSettled=false,
   this.bookingId,

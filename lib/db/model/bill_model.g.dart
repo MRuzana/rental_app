@@ -30,6 +30,7 @@ class BillDetailsModelAdapter extends TypeAdapter<BillDetailsModel> {
       cartItems: (fields[12] as List)
           .map((dynamic e) => (e as Map).cast<String, dynamic>())
           .toList(),
+      customerMail: fields[15] as String?,
       billingDate: fields[14] as String?,
       isSettled: fields[13] as bool?,
       bookingId: fields[0] as int?,
@@ -39,7 +40,7 @@ class BillDetailsModelAdapter extends TypeAdapter<BillDetailsModel> {
   @override
   void write(BinaryWriter writer, BillDetailsModel obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.bookingId)
       ..writeByte(1)
@@ -67,7 +68,9 @@ class BillDetailsModelAdapter extends TypeAdapter<BillDetailsModel> {
       ..writeByte(13)
       ..write(obj.isSettled)
       ..writeByte(14)
-      ..write(obj.billingDate);
+      ..write(obj.billingDate)
+      ..writeByte(15)
+      ..write(obj.customerMail);
   }
 
   @override

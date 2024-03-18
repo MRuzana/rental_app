@@ -192,6 +192,7 @@ class _BillDetailsState extends State<BillDetails> {
     customerMobileNo: widget.customerdetails.mobileNo,
     customerPlace: widget.customerdetails.place,
     eventDate: widget.customerdetails.eventDate,
+    customerMail: widget.customerdetails.mailId,
     billNo: currentBillNo,
     returnDate: returndate,
     totalAmount: totalAmt,

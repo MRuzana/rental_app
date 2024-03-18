@@ -22,7 +22,10 @@ class AddProductmodel{
   final String details;
   
   @HiveField(5)
-  final String imagePath; 
-  AddProductmodel( {required this.name, required this.price, required this.category, required this.details,required this.imagePath,this.id});
+  final String imagePath;
+
+  @HiveField(6)
+  final int quantity;  
+  AddProductmodel({required this.name, required this.price, required this.category, required this.details,required this.imagePath,required this.quantity,this.id});
 
 }

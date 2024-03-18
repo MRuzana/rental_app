@@ -21,23 +21,27 @@ class DueOrders extends StatelessWidget {
       body: SafeArea(
         child: ValueListenableBuilder(
           valueListenable: dueBillNotifier,
-          builder: (BuildContext context, List<BillDetailsModel> duebillList,child){              
-            return ListView.builder(
-              itemBuilder: (context,index){
-                final data=duebillList[index];
-               
-                return duebillList.isNotEmpty? Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Card(
-                    color: const Color.fromARGB(255, 195, 247, 247),                 
-                    elevation: 0.0,
-                    shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    ),
+          builder: (BuildContext context, List<BillDetailsModel> duebillList,child){  
+            if(duebillList.isEmpty){
+              return noProduct(message:'No Due Orders');
+            }
+            else{                       
+              return ListView.builder(
+                itemBuilder: (context,index){
+                  final data=duebillList[index];
+                
+                    return Padding(
+                      padding: const EdgeInsets.all(15.0),
+                        child: Card(
+                          color: const Color.fromARGB(255, 195, 247, 247),                 
+                          elevation: 0.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
 
-                    child: ListTile(
-                    contentPadding: const EdgeInsets.all(20.0),
-                      leading: IconButton(onPressed: ()async{
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(20.0),
+                            leading: IconButton(onPressed: ()async{
                          Uri url = Uri.parse('tel:+91${data.customerMobileNo}');
                         if (await launchUrl(url)) {
                           await launchUrl(url);
@@ -57,7 +61,7 @@ class DueOrders extends StatelessWidget {
                           const SizedBox(height: 5.0),
                           textfield(text: 'Name : ${data.customerName}', color: Colors.black, size: 15, weight: FontWeight.bold),            
                           const SizedBox(height: 5.0),
-                          textfield(text: 'Return date : ${data.returnDate}', color: Colors.red, size: 15, weight: FontWeight.normal),                       
+                          textfield(text: 'Return date : ${data.returnDate}', color: Colors.red, size: 14, weight: FontWeight.normal),                       
                         ],
                       ),
                       trailing: Column(
@@ -71,13 +75,13 @@ class DueOrders extends StatelessWidget {
                       ),
                     ),
                   ),
-                ):
-                noProduct(message: 'No Due Orders')
-                ;            
+                ); 
+                                            
               },
               itemCount: duebillList.length,
             );
-          }),
+          }
+        }),
       ),
     );
   }  

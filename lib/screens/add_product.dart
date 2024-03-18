@@ -20,6 +20,7 @@ class _AddProductState extends State<AddProduct> {
   final _productNameController = TextEditingController();
   final _productPriceController = TextEditingController();
   final _productDetailsController = TextEditingController();
+  final _quantityController = TextEditingController();
   String selectedValue = '';
   String imgPath = '';
   Widget divider = const SizedBox(height: 10);
@@ -84,6 +85,18 @@ class _AddProductState extends State<AddProduct> {
                       }
                     }),
                 divider,
+                textField(
+                    controller: _quantityController,
+                    keyboardType: TextInputType.number,
+                    hintText: 'Quantity',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Quantity should not be empty';
+                      } else {
+                        return null;
+                      }
+                    }),
+                divider,
                 DropdownWidget(
                   onItemSelected: (value) {
                     setState(() {
@@ -108,14 +121,17 @@ class _AddProductState extends State<AddProduct> {
     final itemName = _productNameController.text.trim();
     final itemPrice = _productPriceController.text.trim();
     final itemDetails = _productDetailsController.text.trim();
+    final itemQuantity=_quantityController.text.trim();
     final itemCategory = selectedValue.trim();
     final imagePath = imgPath;
+    
     print('image path is $imgPath');
 
     if (itemName.isEmpty ||
         itemPrice.isEmpty ||
         itemDetails.isEmpty ||
         itemCategory.isEmpty ||
+        itemQuantity.isEmpty ||
         imgPath.isEmpty) {
       return;
     }
@@ -125,7 +141,9 @@ class _AddProductState extends State<AddProduct> {
         price: itemPrice,
         category: itemCategory,
         details: itemDetails,
+        quantity: int.parse(itemQuantity),
         imagePath: imagePath);
+        
     addProduct(product);
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomeScreen()));

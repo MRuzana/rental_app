@@ -43,6 +43,7 @@ Future<void>getAllCartItems()async{
   cartItemListNotifier.value.addAll(cartDB.values);
   cartItemListNotifier.notifyListeners();
 }
+
 bool isItemInCart(int itemId) {
 
   for (final cartItem in cartItemListNotifier.value) { 

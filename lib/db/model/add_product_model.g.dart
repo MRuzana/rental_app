@@ -22,6 +22,7 @@ class AddProductmodelAdapter extends TypeAdapter<AddProductmodel> {
       category: fields[3] as String,
       details: fields[4] as String,
       imagePath: fields[5] as String,
+      quantity: fields[6] as int,
       id: fields[0] as int?,
     );
   }
@@ -29,7 +30,7 @@ class AddProductmodelAdapter extends TypeAdapter<AddProductmodel> {
   @override
   void write(BinaryWriter writer, AddProductmodel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class AddProductmodelAdapter extends TypeAdapter<AddProductmodel> {
       ..writeByte(4)
       ..write(obj.details)
       ..writeByte(5)
-      ..write(obj.imagePath);
+      ..write(obj.imagePath)
+      ..writeByte(6)
+      ..write(obj.quantity);
   }
 
   @override

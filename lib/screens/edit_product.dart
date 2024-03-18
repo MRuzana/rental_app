@@ -22,6 +22,7 @@ class _EditProductState extends State<EditProduct> {
   final _productNameController=TextEditingController();
   final _productPriceController=TextEditingController();
   final _productDetailsController=TextEditingController();
+  final _quantityController=TextEditingController();
   String selectedValue='';
   String imgPath='';
   final ImagePicker _imagePicker = ImagePicker();
@@ -35,6 +36,7 @@ class _EditProductState extends State<EditProduct> {
     _productNameController.text=widget.addProductModel.name;
     _productPriceController.text=widget.addProductModel.price;
     _productDetailsController.text=widget.addProductModel.details;
+    _quantityController.text=widget.addProductModel.quantity.toString();
     selectedValue=widget.addProductModel.category;   
     imgPath=widget.addProductModel.imagePath;
     print('Image Path: $imgPath');
@@ -47,6 +49,7 @@ class _EditProductState extends State<EditProduct> {
     _productNameController.dispose();
     _productPriceController.dispose();
     _productDetailsController.dispose();
+    _quantityController.dispose();
     super.dispose();
   }
  @override
@@ -123,6 +126,19 @@ class _EditProductState extends State<EditProduct> {
                   }
                 }),                                                                             
             const SizedBox(height: 15),
+            textField(
+                controller:  _quantityController,
+                keyboardType: TextInputType.number,               
+                hintText: 'Quantity',
+                validator: (value){
+                  if(value==null || value.isEmpty){
+                    return 'Quantity should not be empty';
+                  }
+                  else{
+                    return null;
+                  }
+                }),                                                                             
+            const SizedBox(height: 15),
 
           DropdownWidget(
             onItemSelected: (value) {
@@ -163,6 +179,7 @@ pickImage()async {
   final itemName=_productNameController.text.trim();
   final itemPrice=_productPriceController.text.trim();
   final itemDetails=_productDetailsController.text.trim();
+  final itemQuantity=int.parse(_quantityController.text.trim());
   final itemCategory=selectedValue.trim();
   final String imagePath;
   if(pickedImage==null){
@@ -176,7 +193,7 @@ pickImage()async {
     return;
   }
  
-  final updatedProduct=AddProductmodel(id: id, name: itemName, price: itemPrice, category: itemCategory, details: itemDetails, imagePath: imagePath);
+  final updatedProduct=AddProductmodel(id: id, name: itemName, price: itemPrice, category: itemCategory, details: itemDetails, imagePath: imagePath,quantity: itemQuantity);
   await editProduct(updatedProduct,id);
   //(mounted){
    

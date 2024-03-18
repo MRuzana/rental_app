@@ -24,6 +24,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
   final _customerAddressController=TextEditingController();
   final _customerPlaceController=TextEditingController();
   final _customerMobileController=TextEditingController();
+  final _customerMailController=TextEditingController();
   final _eventDateController=TextEditingController();
    Widget divider = const SizedBox(height: 10);
   
@@ -101,6 +102,23 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       }             
                     }),
                     divider,
+                    textField(                     
+                    controller: _customerMailController,
+                    keyboardType: TextInputType.emailAddress,                   
+                    hintText: 'Email', 
+                    validator: (value){
+                      if(value==null||value.isEmpty){
+                        return 'Email should not be empty';
+                      }
+                      else if (!RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
+                          .hasMatch(value)) {
+                        return 'Enter valid email id';
+                      }
+                      else{
+                        return null;
+                      }             
+                    }),
+                    divider,
               
                     textFormCalender(
                       controller: _eventDateController, 
@@ -147,12 +165,13 @@ class _CustomerInfoState extends State<CustomerInfo> {
     final customerAddress=_customerAddressController.text.trim();
     final customerPlace=_customerPlaceController.text.trim();
     final customerMobileNo=_customerMobileController.text.trim();
+    final customerMailId=_customerMailController.text.trim();
     final eventDate=_eventDateController.text.trim();
 
-    if(customerName.isEmpty || customerAddress.isEmpty ||customerPlace.isEmpty || customerMobileNo.isEmpty ||eventDate.isEmpty){
+    if(customerName.isEmpty || customerAddress.isEmpty ||customerPlace.isEmpty || customerMobileNo.isEmpty ||customerMailId.isEmpty ||eventDate.isEmpty){
       return;
     }
-     final customerInfo=CustomerDetailsModel(name: customerName, address: customerAddress, place: customerPlace, mobileNo: customerMobileNo, eventDate: eventDate);
+     final customerInfo=CustomerDetailsModel(name: customerName, address: customerAddress, place: customerPlace, mobileNo: customerMobileNo,mailId: customerMailId, eventDate: eventDate);
     // AddCustomerDetails(customerDetails);
     
     Navigator.of(context).pushReplacement(MaterialPageRoute(
