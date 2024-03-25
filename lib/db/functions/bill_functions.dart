@@ -31,7 +31,6 @@ Future<int>nextBillNo()async{
        
 Future <void>getBillDetails()async{
   final billDB=await Hive.openBox<BillDetailsModel>('bill_db');
-  print('bill Details: ${billDB.values.toList()}');
   billListNotifier.value.clear();
   billListNotifier.value.addAll(billDB.values);
   billListNotifier.notifyListeners();
@@ -53,7 +52,6 @@ Future<void>getDueBill()async{
   final currentDate=DateTime.now();
   final dueBills=billDB.values.where((bill) =>  DateFormat('MMM d, yyyy').parse(bill.returnDate).
   isBefore(currentDate)|| DateFormat('MMM d, yyyy').parse(bill.returnDate)==currentDate) ;
-  print('duebills${dueBills.toList()}');
   final bill=dueBills.where((element) => element.isSettled==false);
   dueBillNotifier.value.clear();
   dueBillNotifier.value.addAll(bill);
@@ -61,7 +59,7 @@ Future<void>getDueBill()async{
 }
 
 Future<List<BillDetailsModel>>searchText(String searchText)async{
-  print('search $searchText');
+ 
   final productDB= await Hive.openBox<BillDetailsModel>('bill_db');
   
     final results=productDB.values
@@ -77,7 +75,6 @@ Future<List<BillDetailsModel>>searchText(String searchText)async{
   Future<Iterable<BillDetailsModel>>getSettledBill()async{
     final billDB=await Hive.openBox<BillDetailsModel>('bill_db');
     final settledBills=billDB.values.where((element) => element.isSettled==true);
-    print('settled bills are : $settledBills');
     return settledBills;
   }
 

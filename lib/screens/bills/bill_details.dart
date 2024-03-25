@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_app/db/functions/bill_functions.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
+import 'package:rental_app/db/functions/product_fuctions.dart';
 import 'package:rental_app/db/model/bill_model.dart';
 import 'package:rental_app/db/model/cart_model.dart';
 import 'package:rental_app/db/model/customer_details_model.dart';
@@ -14,8 +15,9 @@ class BillDetails extends StatefulWidget {
   final List<CartModel>cartItems;
   final int billNo;
   final CustomerDetailsModel customerdetails;
+  final List<Map<String,dynamic>>stockInfo;
  
-  const BillDetails({super.key,required this.sum, required this.eventDate,required this.cartItems,required this.billNo,required this.customerdetails});
+  const BillDetails({super.key,required this.sum, required this.eventDate,required this.cartItems,required this.billNo,required this.customerdetails,required this.stockInfo});
 
   @override
   State<BillDetails> createState() => _BillDetailsState();
@@ -169,6 +171,7 @@ class _BillDetailsState extends State<BillDetails> {
   }
 
  Future<void>onOKbuttonClicked(BuildContext context)async{
+  await updateStock(widget.stockInfo);
   final currentBillNo=widget.billNo;
   final returndate=formattedReturnDate;
   final double totalAmt=widget.sum;
@@ -182,10 +185,12 @@ class _BillDetailsState extends State<BillDetails> {
     "quantity": cartItem.quantity,
     "unit_price": cartItem.price,
     "total_price": cartItem.quantity! * double.parse(cartItem.price),
+    "stock_number":cartItem.itemStock-cartItem.quantity!,
+    "id":cartItem.id,
   };
   cartItemData.add(itemData);
 }
- 
+  
   final bill=BillDetailsModel(
     customerName: widget.customerdetails.name,
     customerAddress: widget.customerdetails.address,

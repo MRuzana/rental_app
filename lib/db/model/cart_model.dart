@@ -28,5 +28,8 @@ class CartModel{
   @HiveField(7)
   int? quantity;
 
-  CartModel({required this.name, required this.price, required this.category, required this.details, required this.imagePath,required this.id,this.quantity,this.cartId});  
+  @HiveField(8)
+  int itemStock;
+
+  CartModel({required this.name, required this.price, required this.category, required this.details, required this.imagePath,required this.id,required this.itemStock, this.quantity,this.cartId});  
 }

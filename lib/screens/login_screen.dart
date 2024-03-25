@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(           
                 children: [
-                  Image.asset('assets/images/logo.png',color: Colors.black,),
+                  Image.asset('assets/images/logo.png',color: Colors.black,width: 300,height: 300,),
                   divider,
                   textField(
                     controller: _usernameController,
@@ -40,7 +40,8 @@ class LoginScreen extends StatelessWidget {
                       else{
                         return null;
                       }
-                    }
+                    },
+                    autovalidateMode: AutovalidateMode.always,
                   ),
                   divider,
                   textField(
@@ -54,7 +55,8 @@ class LoginScreen extends StatelessWidget {
                       else{
                         return null;
                       }
-                    }
+                    },
+                    autovalidateMode: AutovalidateMode.always,
                   ),
                   divider,
                   button(
@@ -63,7 +65,8 @@ class LoginScreen extends StatelessWidget {
                       if(_formKey.currentState!.validate()){
                         checkLogin(context);
                       }
-                    })           
+                    }),
+                    const Text('usernama:ruzana,password:1234',style: TextStyle(fontSize: 10))          
                 ],
               ),
             ),
@@ -95,5 +98,4 @@ void checkLogin(BuildContext ctx) async{
       ));
     }
   }
-
 }

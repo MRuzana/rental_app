@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_app/db/functions/bill_functions.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
+import 'package:rental_app/db/functions/product_fuctions.dart';
 import 'package:rental_app/db/model/bill_model.dart';
 import 'package:rental_app/screens/bills/settled_bill.dart';
 import 'package:rental_app/widget/button_widget.dart';
@@ -25,9 +26,7 @@ class _BillSettlementState extends State<BillSettlement> {
       padding: const EdgeInsets.only(left: 20.0),
       child: Text(
         text,
-        style: const TextStyle(
-          fontSize: 15.0,
-        ),
+        style: const TextStyle(fontSize: 15.0,),
       ),
     );
   }
@@ -43,15 +42,13 @@ class _BillSettlementState extends State<BillSettlement> {
   @override
   void initState() {
     super.initState();
-    //isSettledList=[];
     getAllCartItems();
   }
 
   @override
   Widget build(BuildContext context) {
     getBillDetails();
-    // getCustomerDetails();
-
+  
     return Scaffold(
       appBar: EasySearchBar(
           backgroundColor: const Color.fromARGB(255, 195, 247, 247),
@@ -75,6 +72,7 @@ class _BillSettlementState extends State<BillSettlement> {
                   itemBuilder: (context, index) {
                     final data = billList[index];
                     final bool showFullDetails = _showFullDetailsMap[index] ?? false;
+                    
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +102,7 @@ class _BillSettlementState extends State<BillSettlement> {
                             ],
                           ),
                         ),
-                        //const SizedBox(height: 20.0,),
+                        
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: textfield(
@@ -190,10 +188,7 @@ class _BillSettlementState extends State<BillSettlement> {
                                         children: [
                                           ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 195, 247, 247),
-                                            ),
+                                              backgroundColor: const Color.fromARGB(255, 195, 247, 247),),
                                             onPressed: () {
                                               showDialog(
                                                   context: context,
@@ -207,87 +202,52 @@ class _BillSettlementState extends State<BillSettlement> {
                                                             top: -40,
                                                             child: InkResponse(
                                                               onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
+                                                                Navigator.of(context).pop();
                                                               },
                                                               child:
                                                                   const CircleAvatar(
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                child: Icon(
-                                                                    Icons
-                                                                        .close),
+                                                                backgroundColor:  Colors.red,
+                                                                child: Icon(Icons.close),
                                                               ),
                                                             ),
                                                           ),
                                                           Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
+                                                            crossAxisAlignment:CrossAxisAlignment.start,
+                                                            mainAxisSize:MainAxisSize.min,
                                                             children: [
                                                               textfield(
-                                                                  text:
-                                                                      'Date      : ${DateFormat('MMM d, yyyy').format(DateTime.now())}',
-                                                                  color: Colors
-                                                                      .black,
+                                                                  text: 'Date      : ${DateFormat('MMM d, yyyy').format(DateTime.now())}',
+                                                                  color: Colors.black,
                                                                   size: 15,
-                                                                  weight:
-                                                                      FontWeight
-                                                                          .normal),
+                                                                  weight: FontWeight.normal),
                                                               textfield(
-                                                                  text:
-                                                                      'Bill No   : ${data.billNo}',
-                                                                  color: Colors
-                                                                      .black,
+                                                                  text: 'Bill No   : ${data.billNo}',
+                                                                  color: Colors.black,
                                                                   size: 15,
-                                                                  weight:
-                                                                      FontWeight
-                                                                          .normal),
-                                                              // textfield(text: 'Adv paid : ₹${data.advancePaid}',color: Colors.black,size: 15,weight: FontWeight.normal),
-                                                              // textfield(text: 'Bal Amt : ₹${data.balanceAmount}',color: Colors.black,size: 15,weight: FontWeight.normal),
+                                                                  weight: FontWeight.normal),
+                                                            
                                                               textfield(
-                                                                  text:
-                                                                      'Tot Amt : ₹${data.totalAmount}',
-                                                                  color: Colors
-                                                                      .black,
-                                                                  size: 15,
-                                                                  weight:
-                                                                      FontWeight
-                                                                          .normal),
+                                                                  text: 'Tot Amt : ₹${data.totalAmount}',
+                                                                  color: Colors.black,
+                                                                  size: 15,weight: FontWeight.normal),
                                                               const Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            8.0),
+                                                                padding: EdgeInsets.only(top: 8.0),
                                                                 child: Text(
                                                                   'Items returned back and Balance amount received',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                ),
+                                                                  style: TextStyle(color: Colors.red),),
                                                               ),
 
                                                               button(
-                                                                  buttonText:
-                                                                      'OK',
-                                                                  buttonPressed:
-                                                                      () {
-                                                                    updateBill(
-                                                                        data
-                                                                            .billNo,
-                                                                        DateFormat('MMM d, yyyy')
-                                                                            .format(DateTime.now()),
-                                                                        index);
-                                                                    Navigator.pushAndRemoveUntil(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                            builder: (context) =>
-                                                                                BillSettled(billDetailsModel: billList[index])),
-                                                                        (route) => false);
+                                                                  buttonText:'OK',
+                                                                  buttonPressed: () {
+                                                                  
+                                                                  List<Map<String,dynamic>>stockInfo= createStockInfo(data.cartItems);
+                                                                  updateStock(stockInfo);
+                                                                  updateBill(data.billNo,
+                                                                        DateFormat('MMM d, yyyy').format(DateTime.now()),index);
+                                                                    Navigator.pushAndRemoveUntil(context,
+                                                                        MaterialPageRoute(builder: (context) =>
+                                                                                BillSettled(billDetailsModel: billList[index])),(route) => false);
                                                                     // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>BillSettled(billDetailsModel: billList[index],
                                                                     // )));
                                                                   }),
@@ -355,5 +315,29 @@ class _BillSettlementState extends State<BillSettlement> {
         ),
       ),
     );
+  }
+  createStockInfo(List<Map<String, dynamic>> cartItems){
+    List<Map<String,dynamic>>stockInfo=[];
+    for(int i =0;i<cartItems.length;i++){
+
+      Map<String, dynamic> cartItem = cartItems[i];
+      int quantity = cartItem['quantity'];
+      int originalStockNumber = cartItem['stock_number'];
+      int updatedStockNumber = originalStockNumber + quantity;
+      print('quantity : $quantity');
+      print('originalStockNumber : $originalStockNumber');
+      print('updatedStockNumber : $updatedStockNumber');
+      cartItem['stock_number'] = updatedStockNumber;
+
+      
+      Map<String,dynamic>itemInfo={
+        'id':cartItem['id'],
+        'itemName':cartItem['name'],
+        'updatedStock':cartItem['stock_number'],
+      };
+      stockInfo.add(itemInfo);
+    }
+    return stockInfo;
+    
   }
 }

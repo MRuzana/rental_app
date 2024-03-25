@@ -22,7 +22,7 @@ class AddProductmodelAdapter extends TypeAdapter<AddProductmodel> {
       category: fields[3] as String,
       details: fields[4] as String,
       imagePath: fields[5] as String,
-      quantity: fields[6] as int,
+      stockNumber: fields[6] as int,
       id: fields[0] as int?,
     );
   }
@@ -44,7 +44,7 @@ class AddProductmodelAdapter extends TypeAdapter<AddProductmodel> {
       ..writeByte(5)
       ..write(obj.imagePath)
       ..writeByte(6)
-      ..write(obj.quantity);
+      ..write(obj.stockNumber);
   }
 
   @override

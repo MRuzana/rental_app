@@ -25,7 +25,7 @@ class AddProductmodel{
   final String imagePath;
 
   @HiveField(6)
-  final int quantity;  
-  AddProductmodel({required this.name, required this.price, required this.category, required this.details,required this.imagePath,required this.quantity,this.id});
+  int stockNumber;  
+  AddProductmodel({required this.name, required this.price, required this.category, required this.details,required this.imagePath,required this.stockNumber,this.id});
 
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 Widget textField({
@@ -6,6 +5,7 @@ Widget textField({
   required TextInputType keyboardType,
   required String hintText,
   required String? Function(String?)? validator,
+  required AutovalidateMode autovalidateMode,
 }){
   return Padding(
     padding: const EdgeInsets.only(left: 20,right: 20 ),
@@ -23,6 +23,7 @@ Widget textField({
         hintText: hintText,      
       ),
       validator: validator,
+      autovalidateMode: autovalidateMode,
     ),
   );
 }

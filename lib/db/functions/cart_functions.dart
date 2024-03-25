@@ -21,24 +21,15 @@ Future <void> addToCart(CartModel value)async{
     getAllCartItems();
   }
   catch(error){
-     print('Error adding to cart: $error');
-
+    print(error);
   }
-  //  final cartDB= await Hive.openBox<CartModel>('cart_db');
-   
-  //  final cartId=await cartDB.add(value);
-  //  value.cartId=cartId;
-  //  await cartDB.put(value.cartId,value);
-  // // cartItemListNotifier.value.add(value);
-  //  cartItemCountNotifier.value++;
-  //  cartItemListNotifier.notifyListeners();
-  //  cartItemCountNotifier.notifyListeners();
-  //  getAllCartItems();
+     
+
+  
   }
 
 Future<void>getAllCartItems()async{
   final cartDB=await Hive.openBox<CartModel>('cart_db');
-   print('cart List: ${cartDB.values.toList()}');
   cartItemListNotifier.value.clear();
   cartItemListNotifier.value.addAll(cartDB.values);
   cartItemListNotifier.notifyListeners();

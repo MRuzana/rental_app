@@ -35,7 +35,7 @@ Widget category() {
                             selectedCategoryNotifier.value=clickedCategory; 
                             List<AddProductmodel> productList =
                                await getFilterResults(clickedCategory);
-                           print('the result $productList'); 
+                           
                            productListNotifier.value = productList;        
                           },
                           child: Text(category.isNotEmpty ? category[index] : '',

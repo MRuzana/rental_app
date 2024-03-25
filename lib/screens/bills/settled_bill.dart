@@ -93,7 +93,8 @@ class BillSettled extends StatelessWidget {
                    ),
                   text(text: 'Total Amount      : ${billDetailsModel.totalAmount}'),
                   text(text: 'Advance Paid      : ${billDetailsModel.advancePaid}'),
-                  text(text: 'Balance Amount : ${billDetailsModel.balanceAmount}'),                     
+                  text(text: 'Balance Amount : ${billDetailsModel.balanceAmount}'),  
+                  const SizedBox(height: 10.0,),                   
                 ],                 
               )
       )),

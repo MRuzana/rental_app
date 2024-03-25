@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';
@@ -24,8 +25,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ValueNotifier<int>stockNotifier=ValueNotifier<int>(0);
+
   Widget slider({required ImageProvider image}) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: image,
@@ -39,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     getAllProducts();
     getCategory();
+    getAllCartItems();
 
     return Scaffold(    
       appBar: AppBar(
@@ -98,24 +103,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 55.0),
+              padding: const EdgeInsets.only(bottom: 10.0 ),
               child: ListView(
                 children: [
                   CarouselSlider(
                     items: [
-                      // slider(image: const NetworkImage("https://www.josalukkasonline.com/Media/CMS/jos-alukkas-wedding-20231208145835676216.webp")),
-                      slider(
-                          image: const NetworkImage(
-                              "https://fashiondeal.in/image/cache/catalog/Calf-Jewels/twinkling-fancy-jewellery-sets-9859-600x800h.jpg")),
-                      slider(
-                          image: const NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnuBRgF_Umoe1rdD8mjwveXk-Tr90cHvYz-w&usqp=CAU")),
-                      slider(
-                          image: const NetworkImage(
-                              "https://img.freepik.com/free-psd/women-s-fashion-design-template_23-2150877185.jpg?size=626&ext=jpg&ga=GA1.1.1413502914.1708646400&semt=ais")),
-                      slider(
-                          image: const NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK1bbkv0xretXDJRZ2K0Uik0gEvosJJxUJ9Mo0nIL-XZ_1MVSz8erMj8h8dOyTp3Spkg&usqp=CAU")),
+                      slider(image: const AssetImage("assets/images/slider1.jpg")),
+                      slider(image: const AssetImage("assets/images/slider2.jpeg")),
+                      slider(image: const AssetImage("assets/images/slider3.jpeg")),
+                      slider(image: const AssetImage("assets/images/slider4.jpeg")),
+                      slider(image: const AssetImage("assets/images/slider5.jpeg")),
+                     
                     ],
                     options: CarouselOptions(
                       height: 180.0,
@@ -143,7 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               final data = productList[index];
-
+                             
+              
                               return Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Container(
@@ -156,8 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 2,
                                         blurRadius: 5,
-                                        offset: const Offset(
-                                            0, 3), // changes position of shadow
+                                        offset: const Offset(0, 3), // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -172,10 +170,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                             topLeft: Radius.circular(20),
                                             bottomLeft: Radius.circular(20),
                                           ),
-                                          child: Image.memory(
+                                          child: !kIsWeb?                                                                                  
+                                          Image.memory(
                                             File(data.imagePath).readAsBytesSync(),
                                             fit: BoxFit.cover,
-                                          ),
+                                          ):
+                                           Image.network(data.imagePath,fit: BoxFit.cover,),   
+                                                                                                                                                             
                                         ),
                                       ),
                                       
@@ -201,12 +202,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                               overflow: TextOverflow.ellipsis,
                                             ),                                         
                                             const SizedBox(height: 5),
-                                            textfield(
-                                              text: 'In Stock', 
-                                              color: Colors.green, 
-                                              size: 15, 
-                                              weight: FontWeight.bold,)
-                                          
+                                            ValueListenableBuilder(
+                                              valueListenable: stockNotifier, 
+                                              builder: (BuildContext context, stockNumber, child){
+                                                final bool isOutOfStock = data.stockNumber == 0;
+                                                final Color textColor = isOutOfStock ? Colors.red : Colors.green;
+                                                final String text = isOutOfStock ? 'Out of Stock' : 'In Stock';
+                                                return textfield(
+                                                  text: text, 
+                                                  color: textColor, 
+                                                  size: 15, 
+                                                  weight: FontWeight.bold,);
+                                              })  
                                           ],
                                         ),
                                       ),
@@ -242,8 +249,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                           GestureDetector(
                                             onTap: () async {
                                               final data = productList[index];
-
-                                              if (isItemInCart(data.id!)) {
+                                              if(data.stockNumber==0){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(
+                                                    behavior: SnackBarBehavior.floating,
+                                                    backgroundColor: Colors.red,
+                                                    margin: EdgeInsets.all(10),
+                                                    content: Text('Out of Stock',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                );
+              
+                                              }
+                                              else{
+                                                if (isItemInCart(data.id!)) {
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   const SnackBar(
                                                     behavior: SnackBarBehavior.floating,
@@ -255,6 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ),
                                                   ),
                                                 );
+                                              
                                               } else {
                                                 final cartProduct = CartModel(
                                                   name: data.name,
@@ -262,13 +284,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   category: data.category,
                                                   details: data.details,
                                                   imagePath: data.imagePath,
+                                                  itemStock: data.stockNumber,
                                                   quantity: 1,
                                                   id: data.id!,
                                                 );
                                                 addToCart(cartProduct);
-
+              
                                                 final formattedDate = DateFormat('MMM d, yyyy').format(DateTime.now());
-
+              
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
                                                     behavior: SnackBarBehavior.floating,
@@ -281,6 +304,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 );
                                               }
+                                            }                                                                                           
+                                                                               
                                             },
                                             child: textfield(
                                               text: 'Add to cart',
@@ -290,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(width: 10),
+                                      const SizedBox(width: 30),
                                     ],
                                   ),
                                 ),
@@ -303,18 +328,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+
+           
             Positioned(
+              
               bottom: 16.0,
-              right: 16.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const AddProduct()));
-                },
-                shape: const CircleBorder(),
-                backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
-                child: const Icon(Icons.add),
+             // right: 16.0,
+              left: MediaQuery.of(context).size.width / 2 ,
+              child: Center(
+                child: FloatingActionButton.small(
+                  
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const AddProduct()));
+                  },
+                  shape: const CircleBorder(),
+                  backgroundColor: const Color.fromARGB(255, 206, 242, 242),    
+                  child: const Icon(Icons.add),
+                  
+                ),
               ),
+              
             )
           ],
         ),
@@ -331,8 +365,7 @@ editAlert(BuildContext context, int id, List<AddProductmodel> productList,
         return EditAlert(onEdit: () {
           Navigator.of(context).pop();
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  EditProduct(addProductModel: productList[index])));
+              builder: (context) => EditProduct(addProductModel: productList[index])));
         });
       });
 }

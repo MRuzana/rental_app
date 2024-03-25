@@ -68,7 +68,7 @@ class DueOrders extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            textfield(text: 'Tot amt : ${data.totalAmount}', color: Colors.black, size: 12, weight: FontWeight.bold),
+                            Expanded(child: textfield(text: 'Tot amt : ${data.totalAmount}', color: Colors.black, size: 12, weight: FontWeight.bold)),
                             textfield(text: 'Adv paid : ${data.advancePaid}', color: Colors.black, size: 12, weight: FontWeight.bold),
                             textfield(text: 'Bal amt : ${data.balanceAmount}', color: Colors.red, size: 12, weight: FontWeight.bold ),             
                           ],

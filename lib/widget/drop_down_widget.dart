@@ -12,12 +12,16 @@ class DropdownWidget extends StatefulWidget {
   State<DropdownWidget> createState() => _DropdownWidgetState();
 
 }
-
 class _DropdownWidgetState extends State<DropdownWidget> {
 
   String? dropdownValue;
   final TextEditingController _dropdownController = TextEditingController();
 
+@override
+  void initState() {
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Padding(

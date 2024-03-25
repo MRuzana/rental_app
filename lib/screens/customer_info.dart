@@ -11,8 +11,9 @@ import 'package:rental_app/widget/textform_calender_widget.dart';
 class CustomerInfo extends StatefulWidget {
   final double sum;
   final List<CartModel>cartItems;
+  final List<Map<String,dynamic>>stockInfo;
 
-  const CustomerInfo({super.key,required this.cartItems,required this.sum});
+  const CustomerInfo({super.key,required this.cartItems,required this.sum,required this.stockInfo});
  
   @override
   State<CustomerInfo> createState() => _CustomerInfoState();
@@ -26,7 +27,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
   final _customerMobileController=TextEditingController();
   final _customerMailController=TextEditingController();
   final _eventDateController=TextEditingController();
-   Widget divider = const SizedBox(height: 10);
+  Widget divider = const SizedBox(height: 10);
   
   @override
   Widget build(BuildContext context) { 
@@ -55,7 +56,9 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       else{
                         return null;
                       }              
-                    }),
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                  ),
 
                     divider,             
                     textField(
@@ -69,7 +72,9 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       else{
                         return null;
                       }             
-                    }),
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                  ),
                     divider,
               
                     textField(
@@ -83,7 +88,9 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       else{
                         return null;
                       }            
-                    }),
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                    ),
                     divider,
               
                     textField(                     
@@ -100,7 +107,9 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       else{
                         return null;
                       }             
-                    }),
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                    ),
                     divider,
                     textField(                     
                     controller: _customerMailController,
@@ -117,7 +126,9 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       else{
                         return null;
                       }             
-                    }),
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                    ),
                     divider,
               
                     textFormCalender(
@@ -125,8 +136,8 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       onTapCaleneder: ()async{
                       DateTime? pickedDate = await showDatePicker(context: context,
                         initialDate: DateTime.now(),
-                        firstDate:DateTime(2001),
-                         //firstDate:DateTime.now(), //DateTime.now() - not to allow to choose before today.
+                       //firstDate:DateTime(2001),
+                         firstDate:DateTime.now(), //DateTime.now() - not to allow to choose before today.
                         lastDate: DateTime(2101), 
                       );
                       if(pickedDate!=null){
@@ -175,7 +186,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     // AddCustomerDetails(customerDetails);
     
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-    builder: (context)=> BillDetails(sum:widget.sum,eventDate: eventDate,cartItems: widget.cartItems,billNo: currentBillNo,customerdetails: customerInfo)));
+    builder: (context)=> BillDetails(sum:widget.sum,eventDate: eventDate,cartItems: widget.cartItems,billNo: currentBillNo,customerdetails: customerInfo,stockInfo: widget.stockInfo,)));
 
   }  
 }
