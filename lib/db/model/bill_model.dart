@@ -38,7 +38,7 @@ final double advancePaid;
 final double balanceAmount;
 
 @HiveField(12)
- final List<Map<String, dynamic>> cartItems;
+final List<Map<String, dynamic>> cartItems;
 
 @HiveField(13)
 bool? isSettled;

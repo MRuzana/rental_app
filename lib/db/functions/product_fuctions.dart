@@ -17,9 +17,11 @@ Future <void> addProduct(AddProductmodel value)async{
 }
 Future <void>getAllProducts()async{
   final productDB=await Hive.openBox<AddProductmodel>('product_db');
+  if(productDB!=null){
   productListNotifier.value.clear();
   productListNotifier.value.addAll(productDB.values);
   productListNotifier.notifyListeners();
+  }
 }
 
 Future<void>deleteProduct(int id)async{

@@ -1,5 +1,5 @@
-import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_search_bar/flutter_easy_search_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_app/db/functions/bill_functions.dart';
 import 'package:rental_app/db/functions/cart_functions.dart';

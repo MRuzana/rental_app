@@ -20,7 +20,7 @@ class _RevenueState extends State<Revenue> {
    double totalRevenue = 0;
 
   @override
-  void initState() {
+  void initState(){
     _fromDateController.text=DateFormat('MMM d, yyyy').format(DateTime.now().subtract(const Duration(days: 7)));
     _toDateController.text=DateFormat('MMM d, yyyy').format(DateTime.now());
     fetchdata();

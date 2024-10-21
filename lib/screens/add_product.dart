@@ -182,6 +182,7 @@ class _AddProductState extends State<AddProduct> {
           _imagefile = result!.files.first;
         });
       }
+      
     } catch (e) {
        print(e);
     }
