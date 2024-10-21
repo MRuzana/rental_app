@@ -48,7 +48,7 @@ class AboutApp extends StatelessWidget {
                 height: 5,
               ),
               const Text(
-                '1.0.0',
+                '1.0.1',
                 style: TextStyle(
                     color: Colors.black, fontSize: 12),
               ),
